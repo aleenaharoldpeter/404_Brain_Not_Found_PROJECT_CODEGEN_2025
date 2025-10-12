@@ -83,4 +83,8 @@ Built for *Project CodeGen Hackathon (Oct 2025)*
 By: `Aleena Harold Peter`
 Made with caffeine, chaos, and questionable life choices ☕💀
 
+*Sound Effects:*  
+- [Jumpscare](https://pixabay.com/sound-effects/jumpscare-4-103298/) by Duckers_Duckerson (Freesound)  
+- [Music Box Horror](https://pixabay.com/sound-effects/music-box-horror-190275/) by Liecio
+
 ---
