@@ -8,6 +8,12 @@ Built during the [Project CodeGen Hackathon](https://maximally.in), where weird,
 
 ---
 
+## 🚀 Live Site
+
+[https://aleenaharoldpeter.github.io/404_Brain_Not_Found_PROJECT_CODEGEN_2025/](https://aleenaharoldpeter.github.io/404_Brain_Not_Found_PROJECT_CODEGEN_2025/)
+
+---
+
 ## 🌈 Overview
 
 *404BrainNotFound* is an interactive “fake coding IDE” that roasts you, throws emoji tantrums, and mocks your coding mistakes — all in the name of fun.  
