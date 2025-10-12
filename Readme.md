@@ -56,15 +56,6 @@ It’s silly on the surface, but under the hood it’s built with deliberate org
 
 ---
 
-## 🏆 Recommended Award Categories
-
-| Award | Why It Fits |
-|--------|-------------|
-| 🧩 *Crayon Logic Award* | Looks silly but hides clever modular logic inside. |
-| 🤪 *Candy Chaos Prize* | The emoji storms and chaotic UI scream “sugar rush.” |
-| 😂 *Joy Factor Mention* | Guaranteed to make judges smile or laugh out loud. |
-
----
 
 ## 🧩 Tech Stack
 - *HTML* — structure  
@@ -83,7 +74,7 @@ It’s silly on the surface, but under the hood it’s built with deliberate org
 
 ## ✨ Credits
 Built for *Project CodeGen Hackathon (Oct 2025)*  
-By: [Your Name]  
+By: [Aleena Harold Peter]  
 Made with caffeine, chaos, and questionable life choices ☕💀
 
 ---
