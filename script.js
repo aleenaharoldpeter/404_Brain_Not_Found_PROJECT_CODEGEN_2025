@@ -20,22 +20,86 @@ function showMessage(msg) {
   story.appendChild(p);
 }
 
-function playerChoice() {
-  story.innerHTML = `<p>How do you respond?</p>
-  <button id="calmBtn">Debug calmly</button>
-  <button id="screamBtn">Scream at IDE</button>`;
+// function playerChoice() {
+//   story.innerHTML = `<p>How do you respond?</p>
+//   <button id="calmBtn">Debug calmly</button>
+//   <button id="screamBtn">Scream at IDE</button>`;
 
-  document.getElementById('calmBtn').addEventListener('click', () => {
-    chaosScore -= 1;
-    showEnding();
-  });
-  document.getElementById('screamBtn').addEventListener('click', () => {
-    chaosScore += 2;
-    showEnding();
-  });
+//   document.getElementById('calmBtn').addEventListener('click', () => {
+//     chaosScore -= 1;
+//     showEnding();
+//   });
+//   document.getElementById('screamBtn').addEventListener('click', () => {
+//     chaosScore += 2;
+//     showEnding();
+//   });
+
+//   setTimeout(addStartMiniChallengeBtn, 500);
+// }
+
+function playerChoice() {
+  story.innerHTML = `
+    <p>How do you respond?</p>
+    <button id="calmBtn">Debug calmly</button>
+    <button id="screamBtn">Scream at IDE</button>
+  `;
+
+  function handlePick(change, type) {
+    chaosScore += change;
+    story.innerHTML = `<p>You chose to <strong>${type}</strong>…</p>`;
+
+    // Play scream audio if user chose to scream
+    if (type === 'scream at IDE') {
+      const screamAudio = new Audio('assets/scream.mp3');
+      screamAudio.volume = 1.0; // adjust volume if needed
+      screamAudio.play();
+    }
+
+    // Fun effect depending on choice
+    if (type === 'debug calmly') {
+    startEmoji(5000); // calm emojis
+
+    const calmAudio = new Audio('assets/music-box.mp3');
+    calmAudio.volume = 1.0; // adjust volume if needed
+    calmAudio.play();
+
+    // Stop audio after 4 seconds
+    setTimeout(() => {
+        calmAudio.pause();
+        calmAudio.currentTime = 0;
+    }, 4000);     
+    } else {
+      // scream → extra chaos: more particles + flashing messages
+      startEmoji(5000);
+      let flashes = 0;
+      const flashInterval = setInterval(() => {
+        story.style.color = flashes % 2 === 0 ? 'red' : 'black';
+        flashes++;
+        if (flashes > 10) {
+          clearInterval(flashInterval);
+          story.style.color = 'black';
+        }
+      }, 400);
+    }
+
+    // show one of the 5 random messages
+    const msg = messages[Math.floor(Math.random() * messages.length)];
+    showMessage(msg);
+
+    // after 5 seconds, return to the 3-button UI
+    setTimeout(() => {
+      playerChoice();
+      setTimeout(addStartMiniChallengeBtn, 300);
+    }, 5000);
+  }
+
+  document.getElementById("calmBtn").addEventListener("click", () => handlePick(-1, 'debug calmly'));
+  document.getElementById("screamBtn").addEventListener("click", () => handlePick(2, 'scream at IDE'));
 
   setTimeout(addStartMiniChallengeBtn, 500);
 }
+
+
 
 function showEnding() {
   story.innerHTML = '';
@@ -94,16 +158,13 @@ p_form.addEventListener('submit', (e)=>{
   showMessage('Profile saved. Prepare for friendly roasting, ' + profile.name + '.');
 });
 
-// ------------------------- ROAST -------------------------
+// ------------------------- ROASTS -------------------------
 const roastPool = [
   "Even AI refused to debug that, {name}.",
   "Not bad for someone who thinks semicolons are optional, {name}.",
   "A {profession} aged {age} doing this? Revolutionary.",
   "{name}, are you sure you didn't just reverse your brain too?",
   "At {age}, this is peak productivity. It's all downhill from here.",
-  "I haven't seen this level of commitment to chaos since the last merge commit, {name}.",
-  "Wow, {name}! You could reverse strings, but can you reverse your life choices?",
-  "This code is like a mystery novel with no ending — and you're the author, {name}.",
   "If bugs were trophies, you'd be Olympic champion, {name}.",
   "{name}, this input didn't stand a chance. Respect its bravery."
 ];
@@ -111,45 +172,41 @@ const roastPool = [
 const roastPool_Math = [
   "{name}, you couldn’t find ‘x’ if it was tattooed on your forehead.",
   "Your math skills are like pi — endless and irrational, {name}.",
-  "If brains were angles, you’d be a straight line — no curves, {name}.",
-  "You bring new meaning to ‘subtracting from the team,’ {name}.",
-  "Your logic makes less sense than a divided by zero, {name}.",
-  "{name}, your problem-solving skills are like imaginary numbers — they don’t exist.",
   "You calculate mistakes faster than you solve equations, {name}.",
-  "At {age}, {name}, your math is so off, even calculators are offended.",
   "Your math is like a black hole — everything disappears into confusion.",
-  "{name}, if you were a function, you’d be discontinuous everywhere.",
-  "Your answers are like complex numbers — nobody knows what they mean.",
-  "You have the precision of a weather forecast in the desert, {name}.",
-  "I’d say your math is exponential, {name} — exponential in errors.",
-  "You’re proof that sometimes the answer is ‘try again,’ {name}.",
-  "Your mental math has more holes than Swiss cheese, {name}.",
-  "Math called — it wants its logic back, {name}.",
-  "You solve problems like a broken calculator: slow and inaccurate.",
-  "Even a math textbook would skip your page, {name}.",
-  "You’re the reason math teachers need more patience, {name}.",
-  "At {age}, your math is still stuck in first grade, {name}.",
-  "Your brain’s calculating speed? More like a sloth in a marathon.",
-  "You treat formulas like ancient spells — mostly misunderstood and scary.",
-  "If mistakes were integers, you'd be infinity, {name}.",
-  "You could confuse a mathematician with your ‘solutions,’ {name}.",
-  "You’re like a parabola opening downward — always going down, {name}."
+  "If mistakes were integers, you'd be infinity, {name}."
+];
+
+const correctPool_Coding = [
+  "Well, {name}, miracles do happen! 🧠",
+  "Somebody actually knows what they’re doing! {name} 👏",
+  "{name}, you may actually survive debugging today."
+];
+const correctPool_Math = [
+  "Looks like {name} found ‘x’ without cheating! 🧮",
+  "Not bad, {name}, even your imaginary friends approve.",
+  "Congrats {name}, the numbers bend to your will."
 ];
 
 function buildRoast(profile, isMath=false){
   const pool = isMath ? roastPool_Math : roastPool;
   let t = pool[Math.floor(Math.random()*pool.length)];
-  t = t.replace('{name}', profile.name || 'Friend')
-       .replace('{profession}', profile.profession || 'Human')
-       .replace('{age}', profile.age || 'Unknown');
+  t = t.replaceAll('{name}', profile.name || 'Friend')
+       .replaceAll('{profession}', profile.profession || 'Human')
+       .replaceAll('{age}', profile.age || 'Unknown');
+  return t;
+}
+function buildCorrectComment(profile, isMath=false){
+  const pool = isMath ? correctPool_Math : correctPool_Coding;
+  let t = pool[Math.floor(Math.random()*pool.length)];
+  t = t.replace('{name}', profile.name || 'Friend');
   return t;
 }
 
 function showRoastOverlay(profile, reason, isMath=false){
   const title = buildRoast(profile, isMath).toUpperCase();
-  const msg = reason || 'You failed epically.';
   document.getElementById('roastTitle').innerText = title;
-  document.getElementById('roastMsg').innerText = msg;
+  document.getElementById('roastMsg').innerText = reason || 'You failed epically.';
   document.getElementById('roastOverlay').classList.remove('hidden');
   startEmoji(6000);
   setTimeout(()=>{ document.getElementById('roastOverlay').classList.add('hidden'); },6200);
@@ -158,7 +215,7 @@ function showRoastOverlay(profile, reason, isMath=false){
 // ------------------------- EMOJI CANVAS -------------------------
 const canvas = document.getElementById('emojiCanvas');
 const ctx = canvas.getContext ? canvas.getContext('2d') : null;
-let canvasW=0, canvasH=0, particles=[], raining=false, animId=null;
+let canvasW=0, canvasH=0, particles=[], animId=null;
 function resizeCanvas(){ canvas.width=window.innerWidth; canvas.height=window.innerHeight; canvasW=canvas.width; canvasH=canvas.height; }
 window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
@@ -169,161 +226,139 @@ step(){this.x+=this.vx; this.y+=this.vy; this.vy+=0.02; if(this.y>canvasH+50) th
 draw(){ctx.save();ctx.globalAlpha=this.alpha;ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.font=this.size+'px serif';ctx.fillText(this.e,0,0);ctx.restore();}}
 function startEmoji(duration=5000){
   if(!ctx) return;
-  canvas.classList.remove('hidden'); raining=true;
+  canvas.classList.remove('hidden');
   const end=Date.now()+duration;
   const spr=setInterval(()=>{for(let i=0;i<8;i++){particles.push(new P(Math.random()*canvasW,-30,EMOJIS[Math.floor(Math.random()*EMOJIS.length)]));}if(Date.now()>end) clearInterval(spr);},120);
   function frame(){ctx.clearRect(0,0,canvasW,canvasH);particles.forEach(p=>{p.step();p.draw();});particles=particles.filter(p=>p.alpha>0);animId=requestAnimationFrame(frame);}
   frame();
-  setTimeout(()=>{raining=false;setTimeout(()=>{cancelAnimationFrame(animId);particles=[];ctx.clearRect(0,0,canvasW,canvasH);canvas.classList.add('hidden');},900);},duration+700);
+  setTimeout(()=>{cancelAnimationFrame(animId);particles=[];ctx.clearRect(0,0,canvasW,canvasH);canvas.classList.add('hidden');},duration+700);
 }
 
 // ------------------------- MINI CHALLENGE MODAL & MOCK IDE -------------------------
-const challengeModal = document.getElementById("challengeModal");
-const codingBtn = document.getElementById("codingChallengeBtn");
-const mathBtn = document.getElementById("mathChallengeBtn");
-const mockIDE = document.getElementById("mockIDE");
-const mockQ = document.getElementById("mockQuestion");
-const mockCode = document.getElementById("mockCode");
-const mockAns = document.getElementById("mockAnswer");
-const runBtn = document.getElementById("runMockCode");
+const challengeModal=document.getElementById("challengeModal");
+const codingBtn=document.getElementById("codingChallengeBtn");
+const mathBtn=document.getElementById("mathChallengeBtn");
+const mockIDE=document.getElementById("mockIDE");
+const mockQ=document.getElementById("mockQuestion");
+const mockCode=document.getElementById("mockCode");
+const mockAns=document.getElementById("mockAnswer");
+const runBtn=document.getElementById("runMockCode");
 
-let currentQ = 0;
-let isMathChallenge = false;
-let mathQCount = 0;
-const totalMathQs = 10;
-let currentMathQ = null;
+let currentQ=0,isMathChallenge=false,mathQCount=0,currentMathQ=null;
+const totalMathQs=10;
 
-const codingQs = [
-  {q:"Reverse a String", starter:"def reverse_string(string):\n    return ____", expected:["string[::-1]","str.split('').reverse().join('')","new StringBuilder(s).reverse().toString()"]},
-  {q:"Two Sum", starter:"for i in range(len(nums)):\n    for j in range(i+1,len(nums)):\n        if nums[i]+nums[j]==target:\n            return ____", expected:["[i,j]","(i,j)"]},
-  {q:"Find Maximum in Array", starter:"def find_max(arr):\n    return ____", expected:["max(arr)","Math.max(...arr)","Arrays.stream(arr).max().getAsInt()"]}
+// ------------------------- CODING QUESTIONS -------------------------
+const codingQs=[
+  {q:"Reverse a String",starter:"def reverse_string(string):\n    return ____",expected:["string[::-1]","str.split('').reverse().join('')","new StringBuilder(s).reverse().toString()"]},
+  {q:"Two Sum",starter:"for i in range(len(nums)):\n    for j in range(i+1,len(nums)):\n        if nums[i]+nums[j]==target:\n            return ____",expected:["[i,j]","(i,j)"]},
+  {q:"Find Maximum in Array",starter:"def find_max(arr):\n    return ____",expected:["max(arr)","Math.max(...arr)","Arrays.stream(arr).max().getAsInt()"]}
 ];
 
 // ------------------------- MATH CHALLENGE -------------------------
-function generateMathQuestion() {
-  const ops = ['+', '-', '*', '/'];
-  let a = Math.floor(Math.random() * 20) + 1;
-  let b = Math.floor(Math.random() * 20) + 1;
-  const op = ops[Math.floor(Math.random() * ops.length)];
-
-  // Ensure integer division
-  if(op === '/') a = a * b;
-
-  const qText = `${a} ${op} ${b} = ____`;
-  let ans;
-  switch(op){
-    case '+': ans = (a+b).toString(); break;
-    case '-': ans = (a-b).toString(); break;
-    case '*': ans = (a*b).toString(); break;
-    case '/': ans = (a/b).toString(); break;
-  }
-
-  return {qText, ans};
+function generateMathQuestion(){
+  const ops=['+','-','*','/'];
+  let a=Math.floor(Math.random()*20)+1;
+  let b=Math.floor(Math.random()*20)+1;
+  const op=ops[Math.floor(Math.random()*ops.length)];
+  if(op==='/') a=a*b;
+  const ans=eval(`${a}${op}${b}`).toString();
+  return {qText:`${a} ${op} ${b} = ____`, ans};
 }
 
-function loadMathQuestion() {
-  if(mathQCount >= totalMathQs){
-    mockIDE.innerHTML = `
+function loadMathQuestion(){
+  const profile=loadProfile()||{name:'Anon',profession:'Human',age:'Unknown'};
+  if(mathQCount>=totalMathQs){
+    mockIDE.innerHTML=`
       <p>🎉 Math session complete!</p>
       <button id="playAgainMath">Play Again</button>
-      <button id="returnMainMath">Return to Main Menu</button>
-    `;
-    document.getElementById('playAgainMath').addEventListener('click', ()=>{
-      mathQCount=0;
-      loadMathQuestion();
-    });
-    document.getElementById('returnMainMath').addEventListener('click', ()=>{
-      mockIDE.classList.add('hidden');
-      addStartMiniChallengeBtn();
-    });
+      <button id="returnMainMath">Return to Main Menu</button>`;
+    document.getElementById('playAgainMath').onclick=()=>{mathQCount=0;mockIDE.innerHTML="";loadMathQuestion();};
+    document.getElementById('returnMainMath').onclick=()=>{mockIDE.classList.add('hidden');addStartMiniChallengeBtn();};
     return;
   }
-  currentMathQ = generateMathQuestion();
-  mockQ.innerText = currentMathQ.qText;
-  mockCode.textContent = "";
-  mockAns.value = "";
+
+  currentMathQ=generateMathQuestion();
+  mockCode.style.display="none";
+  mockAns.classList.add("hidden");
+
+  mockQ.innerHTML=currentMathQ.qText.replace(
+    "____",
+    `<input id='mathInput' type='text' class='math-answer' placeholder='?' />`
+  );
 }
 
 // ------------------------- MINI CHALLENGE BUTTON -------------------------
 function addStartMiniChallengeBtn(){
-  const holder = document.getElementById('story');
+  const holder=document.getElementById('story');
   if(document.getElementById('startMiniChalBtn')) return;
-  const btn = document.createElement('button');
+  const btn=document.createElement('button');
   btn.id='startMiniChalBtn';
   btn.innerText='Start Mini-Challenges';
   btn.style.marginLeft='10px';
   holder.appendChild(btn);
-
-  btn.addEventListener('click', ()=>{
-    challengeModal.classList.remove('hidden');
-  });
+  btn.onclick=()=>challengeModal.classList.remove('hidden');
 }
 
-// ------------------------- CHALLENGE BUTTONS -------------------------
-codingBtn.addEventListener('click', ()=>{
+// ------------------------- BUTTON HANDLERS -------------------------
+codingBtn.onclick = () => {
   challengeModal.classList.add('hidden');
-  currentQ=0;
-  isMathChallenge=false;
+  isMathChallenge = false;
+  mockIDE.classList.remove('hidden');
+  runBtn.innerText = "Run Code"; 
   loadMockIDE();
-  mockIDE.classList.remove('hidden');
-});
+};
 
-mathBtn.addEventListener('click', ()=>{
+mathBtn.onclick = () => {
   challengeModal.classList.add('hidden');
-  isMathChallenge=true;
-  mathQCount=0;
-  loadMathQuestion();
+  isMathChallenge = true;
+  mathQCount = 0;
   mockIDE.classList.remove('hidden');
-});
+  runBtn.innerText = "Calculate"; 
+  loadMathQuestion();
+};
 
 // ------------------------- LOAD MOCK IDE -------------------------
 function loadMockIDE(){
-  const profile = loadProfile() || {name:'Anon', profession:'Human', age:'Unknown'};
-  if(isMathChallenge){
-    loadMathQuestion();
-    return;
-  }
-  const pool = codingQs;
-  if(currentQ>=pool.length){
-    mockIDE.classList.add('hidden');
-    showMessage("All mini coding challenges completed 🧠🎉");
-    return;
-  }
-  const q = pool[currentQ];
-  mockQ.innerText = q.q;
-  mockCode.textContent = q.starter;
+  mockCode.style.display="block";
+  mockAns.classList.remove('hidden');
+
+  const pool=codingQs;
+  const q=pool[Math.floor(Math.random()*pool.length)];
+  currentQ=q;
+  mockQ.innerText=q.q;
+  mockCode.textContent=q.starter;
   mockAns.value='';
 }
 
 // ------------------------- RUN BUTTON -------------------------
-runBtn.addEventListener('click', ()=>{
-  const profile = loadProfile() || {name:'Anon', profession:'Human', age:'Unknown'};
+runBtn.onclick=()=>{
+  const profile=loadProfile()||{name:'Anon',profession:'Human',age:'Unknown'};
+
   if(isMathChallenge){
-    const userAns = mockAns.value.trim();
-    if(userAns === currentMathQ.ans){
+    const mathInput=document.getElementById('mathInput');
+    const userAns=mathInput?mathInput.value.trim():mockAns.value.trim();
+    if(userAns===currentMathQ.ans){
       mathQCount++;
-      mockQ.textContent = "✅ Correct! 🧮";
-      setTimeout(loadMathQuestion, 800);
+      mockQ.textContent="✅ "+buildCorrectComment(profile,true);
+      setTimeout(loadMathQuestion,1200);
     }else{
       mockIDE.classList.add('hidden');
-      showRoastOverlay(profile,"Wrong answer 😵 Try again!", true);
+      showRoastOverlay(profile,"Wrong answer 😵 Try again!",true);
     }
     return;
   }
 
-  const pool = codingQs;
-  const ans = mockAns.value.trim();
-  const q = pool[currentQ];
-  const correct = q.expected.some(e=>e.toLowerCase()===ans.toLowerCase());
-
+  const q=currentQ;
+  const ans=mockAns.value.trim();
+  const correct=q.expected.some(e=>e.toLowerCase()===ans.toLowerCase());
   if(correct){
-    mockQ.textContent="✅ Nice one, you actually have a brain 🧠";
-    setTimeout(()=>{ currentQ++; loadMockIDE(); },1500);
+    mockQ.textContent="✅ "+buildCorrectComment(profile,false);
+    setTimeout(loadMockIDE,1500);
   }else{
     mockIDE.classList.add('hidden');
-    showRoastOverlay(profile,"Wrong answer 😵 Try again!", false);
+    showRoastOverlay(profile,"Wrong answer 😵 Try again!",false);
   }
-});
+};
 
 // ------------------------- ESC CLOSE -------------------------
 document.addEventListener('keydown',(e)=>{
@@ -334,4 +369,4 @@ document.addEventListener('keydown',(e)=>{
 });
 
 // ------------------------- RESET PROFILE -------------------------
-window.resetProfile=function(){clearProfile(); location.reload();}
+window.resetProfile=function(){clearProfile();location.reload();}
