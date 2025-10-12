@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404: Brain Not Found</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Mini-Challenge Popup -->
+    <div id="challengeModal" class="challenge-modal hidden">
+      <div class="challenge-box">
+        <h2>Choose your Challenge 💀</h2>
+        <div class="challenge-options">
+          <button id="codingChallengeBtn" class="terminal-btn">🧑‍💻 Coding Challenge</button>
+          <button id="mathChallengeBtn" class="terminal-btn">➗ Math Challenge</button>
+        </div>
+        <p id="mathComingSoon" class="hidden">Coming Soon 🔜</p>
+      </div>
+    </div>
+
+    <!-- Mock IDE Overlay -->
+    <div id="mockIDE" class="mock-ide hidden">
+      <div class="mock-ide-content">
+        <div class="mock-question" id="mockQuestion"></div>
+        <div class="mock-editor">
+          <pre id="mockCode"></pre>
+          <input type="text" id="mockAnswer" placeholder="Type missing code here ..." />
+          <button id="runMockCode" class="terminal-btn">Run Code</button>
+        </div>
+      </div>
+    </div>    
+
+    <div class="container">
+        <h1>💀 404: Brain Not Found 💀</h1>
+        <div id="story">
+        <p>You are coding at 3 AM. Your IDE starts talking…</p>
+        <button id="startBtn">Continue</button>
+        </div>
+    </div>
+
+    <!-- Profile Modal (retro style) -->
+    <div id="profileOverlay" class="overlay hidden">
+      <div class="modal">
+        <h2>WELCOME — IDENTITY CHECK</h2>
+        <form id="profileForm">
+          <label>Name:</label><br>
+          <input id="p_name" required placeholder="Your name (real-ish)" /><br><br>
+
+          <label>Profession:</label><br>
+          <select id="p_profession" required>
+            <option value="">-- choose --</option>
+            <option>Student</option>
+            <option>Professor</option>
+            <option>IT Professional</option>
+            <option>Data Engineer</option>
+            <option>Other</option>
+          </select><br><br>
+
+          <div id="otherProfessionWrap" class="hidden">
+            <label>Other (specify):</label><br>
+            <input id="p_prof_other" placeholder="e.g. DevOps, QA" /><br><br>
+          </div>
+
+          <label>Age:</label><br>
+          <input id="p_age" type="number" min="1" max="150" required placeholder="Your age" /><br><br>
+
+          <div style="text-align:center">
+            <button id="saveProfile" type="submit">Save & Continue</button>
+          </div>
+        </form>
+        <p class="muted">(We will remember this in your browser. Used only for roasting.)</p>
+      </div>
+    </div>
+
+    <!-- Roast Overlay -->
+    <div id="roastOverlay" class="overlay hidden">
+      <div class="roastBox">
+        <div id="roastTitle" class="roastTitle"></div>
+        <div id="roastMsg" class="roastMsg"></div>
+      </div>
+    </div>
+
+    <!-- Emoji Canvas -->
+    <canvas id="emojiCanvas" class="emojiCanvas hidden"></canvas>
+
+    <!-- Challenges Section (hidden until started) -->
+    <div id="challenges" class="hidden retro-panel">
+      <h2>Quick Mini-Challenges</h2>
+      <div class="challenge" id="chal1">
+        <p><strong>1)</strong> Reverse the string: <code id="revTarget">hello</code></p>
+        <input id="revAnswer" placeholder="Type reversed string" />
+        <button id="revSubmit">Submit</button>
+        <span id="revFeedback" class="feedback"></span>
+      </div>
+
+      <div class="challenge" id="chal2">
+        <p><strong>2)</strong> Sum these numbers (comma separated): <code id="sumTarget">4,5,6</code></p>
+        <input id="sumAnswer" placeholder="Type the sum" />
+        <button id="sumSubmit">Submit</button>
+        <span id="sumFeedback" class="feedback"></span>
+      </div>
+
+      <div style="margin-top:12px">
+        <button id="endChallenges">Done</button>
+      </div>
+    </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+body {
+  background: #111;
+  color: #00ff99;
+  font-family: 'Courier New', Courier, monospace;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  max-width: 600px;
+}
+
+button {
+  padding: 10px 20px;
+  margin-top: 20px;
+  background: #ff00ff;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+button:hover {
+  background: #00ffff;
+  transform: scale(1.1);
+}
+
+.glitch {
+  color: #ff00ff;
+  font-weight: bold;
+  animation: glitchAnim 0.3s infinite;
+}
+
+@keyframes glitchAnim {
+  0% {text-shadow: 2px 0 red;}
+  25% {text-shadow: -2px 0 cyan;}
+  50% {text-shadow: 2px 2px lime;}
+  75% {text-shadow: -2px -2px yellow;}
+  100% {text-shadow: 2px 0 red;}
+}
+
+/* Overlay and modal (retro styling) */
+.overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:9999}
+.overlay.hidden{display:none}
+.modal{background:#000;padding:18px;border:2px solid #003300;color:#00ff99;max-width:520px;width:90%;font-family:'Courier New', Courier, monospace;text-align:left;border-radius:6px}
+.modal h2{color:#00ff99;margin-top:0;text-align:center}
+.modal input, .modal select{width:100%;padding:8px;background:#071; border:1px solid #003300;color:#00ff99; margin-top:6px}
+
+/* roast box */
+.roastBox{border:2px dashed #003300;padding:18px;background:#000;max-width:760px;color:#00ff99;text-align:center}
+.roastTitle{font-weight:bold;font-size:20px;color:#ff6666;margin-bottom:6px;text-shadow:0 0 6px #ff6666}
+.roastMsg{font-size:16px}
+
+/* emoji canvas */
+.emojiCanvas{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:9998}
+
+/* challenges */
+.retro-panel{position:fixed;right:20px;bottom:20px;background:#020202;border:1px solid #003300;padding:12px;color:#00ff99;border-radius:6px;z-index:9997;min-width:300px}
+.challenge{margin-bottom:10px}
+.challenge input{width:60%;padding:6px;background:#071;border:1px solid #003300;color:#00ff99}
+.challenge button{padding:6px 8px;margin-left:6px;background:#002200;border:1px solid #004400;color:#00ff99}
+.feedback{margin-left:8px;color:#aaffaa}
+.muted{color:#4a664a;font-size:12px;margin-top:8px;text-align:center}
+.hidden{display:none}
+
+/* === Mini Challenge Modal (Retro Style) === */
+.challenge-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.challenge-modal.hidden { display: none; }
+
+.challenge-box {
+  background: #000;
+  border: 2px solid #00ff66;
+  padding: 30px;
+  text-align: center;
+  color: #00ff66;
+  font-family: "Courier New", monospace;
+  width: 300px;
+}
+.challenge-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.terminal-btn {
+  background: transparent;
+  border: 1px solid #00ff66;
+  color: #00ff66;
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.terminal-btn:hover {
+  background: #00ff66;
+  color: #000;
+}
+
+/* === Mock IDE Overlay (Retro Terminal) === */
+.mock-ide {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  color: #00ff66;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  font-family: "Courier New", monospace;
+}
+.mock-ide.hidden { display: none; }
+
+.mock-ide-content {
+  width: 80%;
+  max-width: 900px;
+  border: 2px solid #00ff66;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.9);
+}
+.mock-question {
+  margin-bottom: 15px;
+  font-size: 1.2em;
+  color: #00ff66;
+}
+.mock-editor pre {
+  background: #001a00;
+  padding: 15px;
+  border: 1px solid #00ff66;
+  text-align: left;
+  white-space: pre-wrap;
+}
+.mock-editor input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #00ff66;
+  background: #000;
+  color: #00ff66;
+  font-family: "Courier New", monospace;
+}
+.mock-editor button {
+  margin-top: 15px;
+  width: 100%;
+}
