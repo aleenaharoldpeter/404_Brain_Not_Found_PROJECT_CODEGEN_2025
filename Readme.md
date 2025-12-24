@@ -4,7 +4,7 @@
 Part toy, part simulator, part existential debugging session.
 
 This project is my playful take on what happens when your creative brain and your computer both go “404” at the same time.  
-Built during the [Project CodeGen Hackathon](https://maximally.in), where weird, colorful, and joyful logic is celebrated.
+Built during the [Project CodeGen Hackathon](https://maximally.in) and also now for [Code at Christmas](https://unstop.com/hackathons/code-at-christmas-chandigarh-group-of-colleges-cgc-landran-punjab-1609270), where weird, colorful, and joyful logic is celebrated.
 
 ---
 
