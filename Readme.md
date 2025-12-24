@@ -80,7 +80,7 @@ It’s silly on the surface, but under the hood it’s built with deliberate org
 ---
 
 ## ✨ Credits
-Built for *Project CodeGen Hackathon (Oct 2025)*  
+Built for *Project CodeGen Hackathon (Oct 2025)* and reused for *Code at Christmas - Girls Leading Tech (Dec 2025)*   
 By: `Aleena Harold Peter`
 Made with caffeine, chaos, and questionable life choices ☕💀
 
